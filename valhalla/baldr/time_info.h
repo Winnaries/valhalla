@@ -7,7 +7,7 @@
 #include <valhalla/baldr/graphid.h>
 #include <valhalla/baldr/graphreader.h>
 #include <valhalla/midgard/logging.h>
-#include <valhalla/proto/api.pb.h>
+#include "proto/api.pb.h"
 
 namespace dt = valhalla::baldr::DateTime;
 namespace sc = std::chrono;

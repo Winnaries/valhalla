@@ -6,8 +6,8 @@
 #include <memory>
 
 #include <valhalla/baldr/rapidjson_utils.h>
-#include <valhalla/proto/options.pb.h>
-#include <valhalla/proto_conversions.h>
+#include "proto/options.pb.h"
+#include "proto_conversions.h"
 #include <valhalla/sif/autocost.h>
 #include <valhalla/sif/bicyclecost.h>
 #include <valhalla/sif/dynamiccost.h>

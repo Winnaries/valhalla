@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 #include <valhalla/baldr/graphreader.h>
-#include <valhalla/proto/api.pb.h>
+#include "proto/api.pb.h"
 
 namespace valhalla {
 namespace tyr {

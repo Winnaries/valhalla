@@ -19,7 +19,7 @@
 #include <valhalla/midgard/pointll.h>
 #include <valhalla/midgard/sequence.h>
 
-#include <valhalla/proto/incidents.pb.h>
+#include "proto/incidents.pb.h"
 
 namespace valhalla {
 namespace baldr {

@@ -11,8 +11,8 @@
 #include <valhalla/odin/markup_formatter.h>
 #include <valhalla/odin/narrative_dictionary.h>
 #include <valhalla/odin/util.h>
-#include <valhalla/proto/options.pb.h>
-#include <valhalla/proto/trip.pb.h>
+#include "proto/options.pb.h"
+#include "proto/trip.pb.h"
 
 namespace valhalla {
 namespace odin {

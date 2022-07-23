@@ -35,9 +35,9 @@
 #include <string>
 
 // this describes the low-level blob storage
-#include <valhalla/proto/fileformat.pb.h>
+#include "proto/fileformat.pb.h"
 // this describes the high-level OSM objects
-#include <valhalla/proto/osmformat.pb.h>
+#include "proto/osmformat.pb.h"
 
 // extend the protobuf osmpbf namespace
 namespace OSMPBF {

@@ -1,0 +1,25 @@
+load("@//:valhalla.bzl", "valhalla_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+
+valhalla_library(
+    name = "midgard", 
+    deps = [
+        "@//third_party:robin_hood",
+        "@boost//:archive",
+        "@boost//:serialization"
+    ]
+)
+
+valhalla_library(
+    name = "baldr", 
+    deps = [
+        "@//proto:cc_proto", 
+        "@//third_party:date", 
+        "@//third_party:rapidjson", 
+        "@boost//:optional", 
+        "@boost//:algorithm", 
+        "@boost//:variant", 
+        "@boost//:property_tree", 
+        "@boost//:intrusive_ptr", 
+    ]
+)

@@ -2,7 +2,7 @@
 #define VALHALLA_LOKI_POLYGON_SEARCH_H_
 
 #include <valhalla/baldr/graphreader.h>
-#include <valhalla/proto/options.pb.h>
+#include "proto/options.pb.h"
 #include <valhalla/sif/dynamiccost.h>
 
 namespace valhalla {

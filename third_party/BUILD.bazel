@@ -1,0 +1,42 @@
+load("@rules_proto//proto:defs.bzl", "proto_library")
+
+proto_library(
+    name = "osm_binary_proto", 
+    visibility = ["//visibility:public"], 
+    deps = [
+        "fileformat_proto", 
+        "osmformat_proto",
+    ]
+)
+
+proto_library(
+    name = "fileformat_proto", 
+    srcs = ["OSM-binary/src/fileformat.proto"]
+)
+
+proto_library(
+    name = "osmformat_proto", 
+    srcs = ["OSM-binary/src/osmformat.proto"]
+)
+
+cc_library(
+    name = "robin_hood", 
+    hdrs = ["robin-hood-hashing/src/include/robin_hood.h"],
+    visibility = ["//visibility:public"], 
+    strip_include_prefix = "robin-hood-hashing/src/include/"
+)
+
+cc_library(
+    name = "rapidjson", 
+    hdrs = glob(["rapidjson/include/rapidjson/**/*.h"]),
+    visibility = ["//visibility:public"], 
+    strip_include_prefix = "rapidjson/include/"
+)
+
+cc_library(
+    name = "date", 
+    hdrs = glob(["date/include/date/*.h"]),
+    srcs = glob(["date/src/*.cpp"]),
+    visibility = ["//visibility:public"], 
+    strip_include_prefix = "date/include", 
+)

@@ -15,7 +15,7 @@
 #include <valhalla/baldr/timedomain.h>
 #include <valhalla/baldr/transitdeparture.h>
 #include <valhalla/midgard/logging.h>
-#include <valhalla/proto/options.pb.h>
+#include "proto/options.pb.h"
 #include <valhalla/sif/costconstants.h>
 #include <valhalla/sif/edgelabel.h>
 #include <valhalla/sif/hierarchylimits.h>

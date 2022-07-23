@@ -15,7 +15,7 @@
 #include <valhalla/baldr/rapidjson_utils.h>
 #include <valhalla/meili/match_result.h>
 #include <valhalla/midgard/gridded_data.h>
-#include <valhalla/proto/api.pb.h>
+#include "proto/api.pb.h"
 #include <valhalla/thor/costmatrix.h>
 #include <valhalla/tyr/actor.h>
 

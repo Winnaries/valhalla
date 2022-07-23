@@ -12,10 +12,10 @@
 #include <boost/optional.hpp>
 
 #include <valhalla/baldr/turn.h>
-#include <valhalla/proto/directions.pb.h>
-#include <valhalla/proto/options.pb.h>
-#include <valhalla/proto/sign.pb.h>
-#include <valhalla/proto/trip.pb.h>
+#include "proto/directions.pb.h"
+#include "proto/options.pb.h"
+#include "proto/sign.pb.h"
+#include "proto/trip.pb.h"
 
 namespace valhalla {
 namespace odin {

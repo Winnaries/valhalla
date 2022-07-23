@@ -1,6 +1,9 @@
 # editor temporary / backup files
 *~
 
+# bazel build directories
+bazel-*
+
 # built objects
 valhalla_run_map_match
 valhalla_meili_worker

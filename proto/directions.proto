@@ -1,8 +1,8 @@
 syntax = "proto3";
 option optimize_for = LITE_RUNTIME;
 package valhalla;
-import public "common.proto";
-import public "sign.proto";
+import public "proto/common.proto";
+import public "proto/sign.proto";
 
 message DirectionsLeg {
 

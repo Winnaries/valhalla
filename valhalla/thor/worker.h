@@ -15,8 +15,8 @@
 #include <valhalla/baldr/location.h>
 #include <valhalla/meili/map_matcher_factory.h>
 #include <valhalla/meili/match_result.h>
-#include <valhalla/proto/options.pb.h>
-#include <valhalla/proto/trip.pb.h>
+#include "proto/options.pb.h"
+#include "proto/trip.pb.h"
 #include <valhalla/sif/costfactory.h>
 #include <valhalla/sif/edgelabel.h>
 #include <valhalla/thor/astar_bss.h>

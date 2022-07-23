@@ -2,11 +2,11 @@ syntax = "proto3";
 option optimize_for = LITE_RUNTIME;
 package valhalla;
 
-import public "options.proto";    // the request, filled out by loki
-import public "trip.proto";       // the paths, filled out by thor
-import public "directions.proto"; // the directions, filled out by odin
-import public "info.proto";       // statistics about the request, filled out by loki/thor/odin
-import public "status.proto";     // info for status endpoint
+import public "proto/options.proto";    // the request, filled out by loki
+import public "proto/trip.proto";       // the paths, filled out by thor
+import public "proto/directions.proto"; // the directions, filled out by odin
+import public "proto/info.proto";       // statistics about the request, filled out by loki/thor/odin
+import public "proto/status.proto";     // info for status endpoint
 
 message Api {
   // this is the request to the api
