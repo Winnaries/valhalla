@@ -1,17 +1,64 @@
 load("@//:valhalla.bzl", "valhalla_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 
+"""
+Hex binary dump of language translation file for 
+a specific language (only en-US for now). Used for 
+generating Odin's route narrative.
+"""
+genrule(
+    name = "locales", 
+    outs = ["locales.h"], 
+    srcs = ["locales/en-US.json"], 
+    tools = ["locales/make_locales.sh"], 
+    cmd = "$(location locales/make_locales.sh) $(location locales/en-US.json) > $@",
+)
+
+"""
+Central library that deal with common data structure
+such as bounding box or a point. This is required in all
+other sub-packages in the repository.
+"""
 valhalla_library(
     name = "midgard", 
     deps = [
         "@//third_party:robin_hood",
         "@boost//:archive",
-        "@boost//:serialization"
+        "@boost//:serialization",
     ]
 )
 
+"""
+This library is possibly unneccessary for Meili's
+map matching function since it is related in generating
+verbal narrative of the routes.
+"""
+valhalla_library(
+    name = "odin", 
+    hdrs = [
+        "@//:locales"
+    ],
+    deps = [
+        "@//proto:cc_proto", 
+        "@//third_party:date", 
+        "@//third_party:rapidjson", 
+        "@boost//:format",
+        "@boost//:algorithm",
+        "@boost//:property_tree",
+        "@boost//:intrusive_ptr",
+    ]
+)
+
+"""
+IO library for accessing and processing pre-generated
+tiles and graphs data. Similar to Midgard, this library 
+is almost always required in the other sub-packages. 
+"""
 valhalla_library(
     name = "baldr", 
+    hdrs = [
+        "@//:locales"
+    ],
     deps = [
         "@//proto:cc_proto", 
         "@//third_party:date", 
@@ -21,5 +68,51 @@ valhalla_library(
         "@boost//:variant", 
         "@boost//:property_tree", 
         "@boost//:intrusive_ptr", 
+    ]
+)
+
+"""
+Library used in costing graph nodes and edges which 
+is neccessary in performing final optimization problem of 
+map matching algorithm in meili.
+"""
+valhalla_library(
+    name = "sif", 
+    deps = [
+        "@//proto:cc_proto", 
+        "@//third_party:date",
+        "@//third_party:rapidjson",
+        "@boost//:property_tree",
+        "@boost//:intrusive_ptr",
+    ]
+)
+
+"""
+Hidden-markov machine map matching library which takes
+input as coordinates and road network as tile graph.
+"""
+valhalla_library(
+    name = "meili", 
+    deps = [
+        "@//proto:cc_proto",
+        "@//third_party:date", 
+        "@//third_party:rapidjson", 
+        "@boost//:intrusive_ptr", 
+        "@boost//:property_tree",
+        "@boost//:heap",
+    ]
+)
+
+"""
+Unified library containing all dependencies for a
+functional map matching algorithm in Meili.
+"""
+cc_library(
+    name = "mapmatch", 
+    deps = [
+        ":midgard", 
+        ":baldr", 
+        ":sif", 
+        ":meili", 
     ]
 )

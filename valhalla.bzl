@@ -3,10 +3,10 @@ srcs_headers = "src/%s/**/*.h"
 hdrs_pattern = "valhalla/**/*.h"
 
 default_copts = [
-    "-I.", 
-    "-Ivalhalla", 
+    "-w", 
+    "-I.",
+    "-Ivalhalla",
     "--std=c++14", 
-    "-Wno-unused-variable", 
 ]
 
 def valhalla_library(
@@ -15,6 +15,8 @@ def valhalla_library(
     srcs = None,
     deps = None, 
     copts = None,
+    srcs_exclude = None, 
+    hdrs_exclude = None, 
     visibility = ["//visibility:public"]
 ): 
     if deps == None: 
@@ -29,11 +31,17 @@ def valhalla_library(
     if copts == None: 
         copts = []
 
+    if srcs_exclude == None: 
+        srcs_exclude = []
+
+    if hdrs_exclude == None: 
+        hdrs_exclude = []
+
     return native.cc_library(
         name = name, 
         deps = deps, 
         visibility = visibility, 
         copts = default_copts + copts, 
-        srcs = native.glob([srcs_pattern % name]) + srcs, 
-        hdrs = native.glob([hdrs_pattern, srcs_headers % name]) + hdrs, 
+        srcs = native.glob([srcs_pattern % name], exclude=srcs_exclude) + srcs, 
+        hdrs = native.glob([hdrs_pattern, srcs_headers % name], exclude=hdrs_exclude) + hdrs, 
     )
