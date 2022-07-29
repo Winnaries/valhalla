@@ -2,12 +2,13 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # ==== LIBBOOST ====
 
-_RULES_BOOST_COMMIT = "652b21e35e4eeed5579e696da0facbe8dba52b1f"
+_RULES_BOOST_COMMIT = "06d26e60e9614bddd42a8ed199179775f7d7f90d"
 
 http_archive(
     name = "com_github_nelhage_rules_boost",
-    sha256 = "c1b8b2adc3b4201683cf94dda7eef3fc0f4f4c0ea5caa3ed3feffe07e1fb5b15",
     strip_prefix = "rules_boost-%s" % _RULES_BOOST_COMMIT,
+    sha256 = "013eb75157e51035e40c3b6fe19f22459f2ef08134c132b1a4fd2ee440d455ba",
+    patches = ["@//:lzma-arm64-fix.patch"],
     urls = [
         "https://github.com/nelhage/rules_boost/archive/%s.tar.gz" % _RULES_BOOST_COMMIT,
     ],
@@ -27,6 +28,43 @@ http_archive(
         "https://github.com/bazelbuild/rules_proto/archive/refs/tags/4.0.0-3.20.0.tar.gz",
     ],
 )
+
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
 rules_proto_dependencies()
 rules_proto_toolchains()
+
+# ==== APPLE ====
+
+http_archive(
+    name = "build_bazel_rules_apple",
+    sha256 = "36072d4f3614d309d6a703da0dfe48684ec4c65a89611aeb9590b45af7a3e592", 
+    url = "https://github.com/bazelbuild/rules_apple/releases/download/1.0.1/rules_apple.1.0.1.tar.gz",
+)
+
+load(
+    "@build_bazel_rules_apple//apple:repositories.bzl",
+    "apple_rules_dependencies",
+)
+
+apple_rules_dependencies()
+
+load(
+    "@build_bazel_rules_swift//swift:repositories.bzl",
+    "swift_rules_dependencies",
+)
+
+swift_rules_dependencies()
+
+load(
+    "@build_bazel_rules_swift//swift:extras.bzl",
+    "swift_rules_extra_dependencies",
+)
+
+swift_rules_extra_dependencies()
+
+load(
+    "@build_bazel_apple_support//lib:repositories.bzl",
+    "apple_support_dependencies",
+)
+
+apple_support_dependencies()

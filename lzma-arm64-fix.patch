@@ -1,0 +1,126 @@
+diff --git BUILD.lzma BUILD.lzma
+index 23b1ab6..258226c 100644
+--- BUILD.lzma
++++ BUILD.lzma
+@@ -23,27 +23,70 @@ config_setting(
+     ],
+ )
+ 
++config_setting(
++    name = "android", 
++    constraint_values = [
++        "@platforms//os:android"
++    ]
++)
++
++config_setting(
++    name = "linux", 
++    constraint_values = [
++        "@platforms//os:linux"
++    ]
++)
++
++config_setting(
++    name = "tvos", 
++    constraint_values = [
++        "@platforms//os:tvos"
++    ]
++)
++
++config_setting(
++    name = "ios", 
++    constraint_values = [
++        "@platforms//os:ios"
++    ]
++)
++
++config_setting(
++    name = "watchos", 
++    constraint_values = [
++        "@platforms//os:watchos"
++    ]
++)
++
++config_setting(
++    name = "windows", 
++    constraint_values = [
++        "@platforms//os:windows"
++    ]
++)
++
+ copy_file(
+     name = "copy_config",
+     src = selects.with_or({
+-        "@platforms//os:android": "@com_github_nelhage_rules_boost//:config.lzma-android.h",
+-        "@platforms//os:linux": "@com_github_nelhage_rules_boost//:config.lzma-linux.h",
++        (":ios", ":watchos", ":tvos"): "apple_config",
++        ":android": "@com_github_nelhage_rules_boost//:config.lzma-android.h",
++        ":linux": "@com_github_nelhage_rules_boost//:config.lzma-linux.h",
+         ":osx_arm64": "@com_github_nelhage_rules_boost//:config.lzma-osx-arm64.h",
+         ":osx_x86_64": "@com_github_nelhage_rules_boost//:config.lzma-osx-x86_64.h",
+-        ("@platforms//os:ios", "@platforms//os:watchos", "@platforms//os:tvos"): "apple_config",
+-        "@platforms//os:windows": "@com_github_nelhage_rules_boost//:config.lzma-windows.h",
++        ":windows": "@com_github_nelhage_rules_boost//:config.lzma-windows.h",
+     }),
+     out = "src/liblzma/api/config.h", # minimize the number of exported include paths
+ )
+ 
++
+ # Configuration is the same across iOS, watchOS, and tvOS
+ alias(
+     name = "apple_config",
+     actual = select({
+-        ":aarch64": "config.lzma-ios-arm64.h",
+-        ":arm": "config.lzma-ios-armv7.h",
+-        ":x86_64": "config.lzma-osx-x86_64.h", # Configuration same as macOS
+-        ":x86_32": "config.lzma-ios-i386.h",
++        ":aarch64": "@com_github_nelhage_rules_boost//:config.lzma-ios-arm64.h",
++        ":arm": "@com_github_nelhage_rules_boost//:config.lzma-ios-armv7.h",
++        ":x86_64": "@com_github_nelhage_rules_boost//:config.lzma-osx-x86_64.h", # Configuration same as macOS
++        ":x86_32": "@com_github_nelhage_rules_boost//:config.lzma-ios-i386.h",
+     }),
+ )
+ 
+@@ -182,6 +225,7 @@ cc_library(
+         "-I external/org_lzma_lzma/src/liblzma/lzma",
+         "-I external/org_lzma_lzma/src/liblzma/rangecoder",
+         "-I external/org_lzma_lzma/src/liblzma/simple",
++        "-isystem external/org_lzma_lzma/src/liblzma/api", 
+     ],
+     defines = select({
+         "@platforms//os:windows": ["LZMA_API_STATIC"],
+diff --git config.lzma-osx-x86_64.h config.lzma-osx-x86_64.h
+index eb99bd5..6d63153 100644
+--- config.lzma-osx-x86_64.h
++++ config.lzma-osx-x86_64.h
+@@ -93,7 +93,7 @@
+ 
+ /* Define to 1 if sparc decoder is enabled. */
+ #define HAVE_DECODER_SPARC 1
+-
++
+ /* Define to 1 if x86 decoder is enabled. */
+ #define HAVE_DECODER_X86 1
+ 
+@@ -155,7 +155,7 @@
+ #define HAVE_ICONV 1
+ 
+ /* Define to 1 if you have the <immintrin.h> header file. */
+-#define HAVE_IMMINTRIN_H 1
++// #define HAVE_IMMINTRIN_H 1
+ 
+ /* Define to 1 if you have the <inttypes.h> header file. */
+ #define HAVE_INTTYPES_H 1
+diff --git config.lzma-windows.h config.lzma-windows.h
+index 20c7660..d461eb2 100644
+--- config.lzma-windows.h
++++ config.lzma-windows.h
+@@ -155,7 +155,7 @@
+ /* #undef HAVE_ICONV */
+ 
+ /* Define to 1 if you have the <immintrin.h> header file. */
+-#define HAVE_IMMINTRIN_H 1
++// #define HAVE_IMMINTRIN_H 1
+ 
+ /* Define to 1 if you have the <inttypes.h> header file. */
+ #define HAVE_INTTYPES_H 1
