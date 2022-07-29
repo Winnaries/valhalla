@@ -5,7 +5,10 @@
 #include "baldr/predictedspeeds.h"
 #include "baldr/rapidjson_utils.h"
 #include "baldr/traffictile.h"
+
+#ifdef DATA_TOOLS
 #include "mjolnir/graphtilebuilder.h"
+#endif
 
 #include <cmath>
 #include <fstream>

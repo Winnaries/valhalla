@@ -1,0 +1,106 @@
+load("@//:valhalla.bzl", "valhalla_test")
+
+valhalla_test(
+    name = "aabb2", 
+    srcs = ["aabb2.cc"], 
+    deps = [
+        "@//:midgard", 
+        "@//proto:cc_proto",
+        "@//third_party:date",
+        "@//third_party:rapidjson",
+        "@boost//:algorithm",
+        "@boost//:property_tree",
+    ]
+)
+
+valhalla_test(
+    name = "access_restriction", 
+    srcs = ["access_restriction.cc"],
+)
+
+valhalla_test(
+    name = "admin", 
+    srcs = ["admin.cc"],
+)
+
+valhalla_test(
+    name = "attributes_controller", 
+    srcs = ["attributes_controller.cc"],
+)
+
+valhalla_test(
+    name = "compression", 
+    srcs = ["compression.cc"],
+)
+
+valhalla_test(
+    name = "directededge", 
+    srcs = ["directededge.cc"],
+)
+
+valhalla_test(
+    name = "edgecollapser", 
+    srcs = ["edgecollapser.cc"],
+)
+
+valhalla_test(
+    name = "distanceapproximator", 
+    srcs = ["distanceapproximator.cc"],
+    deps = [
+        "@//:midgard"
+    ]
+)
+
+valhalla_test(
+    name = "ellipse", 
+    srcs = ["ellipse.cc"],
+    deps = [
+        "@//:midgard"
+    ]
+)
+
+valhalla_test(
+    name = "encode", 
+    srcs = ["encode.cc"],
+    deps = [
+        "@//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "double_bucket_queue", 
+    srcs = ["double_bucket_queue.cc"],
+    deps = [
+        "@//:midgard"
+    ]
+)
+
+valhalla_test(
+    name = "datetime", 
+    srcs = ["datetime.cc"],
+    deps = [
+        "@//:midgard"
+    ]
+)
+
+valhalla_test(
+    name = "filesystem", 
+    srcs = ["filesystem.cc"],
+)
+
+valhalla_test(
+    name = "polyline2", 
+    srcs = ["polyline2.cc"],
+    deps = [
+        "//:midgard"
+    ]
+)
+
+valhalla_test(
+    name = "geometry", 
+    srcs = ["geometry.cc"],
+    deps = [
+        "//:meili", 
+        "//:midgard",
+    ]
+)

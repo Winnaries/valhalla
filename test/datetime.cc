@@ -655,12 +655,14 @@ TEST(DateTime, TestSecondOfWeek) {
 TEST(DateTime, DiffCaching) {
   // no cache NY to LA
   const auto& tzdb = DateTime::get_tz_db();
-  auto diff = DateTime::timezone_diff(1586660072, tzdb.from_index(110), tzdb.from_index(94));
+  auto ny_index = tzdb.to_index("America/New_York");
+  auto la_index = tzdb.to_index("America/Los_Angeles");
+  auto diff = DateTime::timezone_diff(1586660072, tzdb.from_index(ny_index), tzdb.from_index(la_index));
   EXPECT_EQ(diff, -3 * 60 * 60);
 
   // with cache NY to LA
   std::unordered_map<const date::time_zone*, std::vector<date::sys_info>> cache;
-  diff = DateTime::timezone_diff(1586660072, tzdb.from_index(110), tzdb.from_index(94), &cache);
+  diff = DateTime::timezone_diff(1586660072, tzdb.from_index(ny_index), tzdb.from_index(la_index), &cache);
   EXPECT_EQ(diff, -3 * 60 * 60);
 
   // for a really long route that crosses many timezone we end up doing a lot of tz diffing
