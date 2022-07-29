@@ -1,6 +1,6 @@
 srcs_pattern = "src/%s/**/*.cc"
-srcs_headers = "src/%s/**/*.h"
-hdrs_pattern = "valhalla/**/*.h"
+prv_hdrs_pattern = "src/%s/**/*.h"
+pub_hdrs_pattern = "valhalla/%s/**/*.h"
 
 default_copts = [
     "-w", 
@@ -8,6 +8,35 @@ default_copts = [
     "-Ivalhalla",
     "--std=c++14", 
 ]
+
+config_hdrs = [
+    "valhalla/valhalla.h", 
+    "valhalla/config.h",
+    "valhalla/macro.h",
+    "valhalla/worker.h", # Pre-included headers
+]
+
+def valhalla_test(
+    name, 
+    srcs = None, 
+    deps = None, 
+): 
+    if srcs == None: 
+        srcs = []
+
+    if deps == None: 
+        deps = []
+
+    return native.cc_test(
+        name = name, 
+        copts = default_copts, 
+        srcs = srcs + native.glob(["test.*"]),
+        deps = deps + [
+            "@//:baldr", 
+            "@//third_party:microtar",
+            "@//third_party/googletest:gtest",
+        ], 
+    )
 
 def valhalla_library(
     name,
@@ -42,6 +71,6 @@ def valhalla_library(
         deps = deps, 
         visibility = visibility, 
         copts = default_copts + copts, 
-        srcs = native.glob([srcs_pattern % name], exclude=srcs_exclude) + srcs, 
-        hdrs = native.glob([hdrs_pattern, srcs_headers % name], exclude=hdrs_exclude) + hdrs, 
+        hdrs = native.glob([pub_hdrs_pattern % name], exclude=hdrs_exclude) + config_hdrs + hdrs, 
+        srcs = native.glob([srcs_pattern % name, prv_hdrs_pattern % name], exclude=srcs_exclude) + srcs, 
     )

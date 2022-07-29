@@ -1,5 +1,29 @@
-load("@//:valhalla.bzl", "valhalla_library")
+load("@//:valhalla.bzl", "valhalla_library", "default_copts")
 load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@build_bazel_rules_apple//apple:apple.bzl", "apple_static_xcframework")
+
+"""
+Main target platform which includes
+a recent release of iPhone
+"""
+platform(
+    name = "ios_arm64", 
+    constraint_values = [
+        "@platforms//os:ios", 
+        "@platforms//cpu:aarch64", 
+    ]
+)
+
+"""
+Secondary target for testing logic for iOS platform
+"""
+platform(
+    name = "ios_x86_64", 
+    constraint_values = [
+        "@platforms//os:ios", 
+        "@platforms//cpu:x86_64", 
+    ]
+)
 
 """
 Hex binary dump of language translation file for 
@@ -15,6 +39,36 @@ genrule(
 )
 
 """
+IO-minimized library for reading and writing files based 
+on a standard boost's filesystem library.
+"""
+cc_library(
+    name = "filesystem", 
+    copts = default_copts, 
+    srcs = ["src/filesystem.cc"], 
+    hdrs = ["valhalla/filesystem.h"],
+)
+
+"""
+Utility library for converting between 
+internal data structure and protobuf.
+"""
+cc_library(
+    name = "proto_conversions", 
+    copts = default_copts, 
+    srcs = ["src/proto_conversions.cc"], 
+    hdrs = [
+        "valhalla/proto_conversions.h", 
+        "valhalla/sif/costconstants.h"
+    ],
+    deps = [
+        "@//:baldr", 
+        "@//:midgard",
+        "@//proto:cc_proto",
+    ]
+)
+
+"""
 Central library that deal with common data structure
 such as bounding box or a point. This is required in all
 other sub-packages in the repository.
@@ -22,6 +76,7 @@ other sub-packages in the repository.
 valhalla_library(
     name = "midgard", 
     deps = [
+        "@//:filesystem",
         "@//third_party:robin_hood",
         "@boost//:archive",
         "@boost//:serialization",
@@ -29,6 +84,36 @@ valhalla_library(
 )
 
 """
+IO library for accessing and processing pre-generated
+tiles and graphs data. Similar to Midgard, this library 
+is almost always required in the other sub-packages. 
+"""
+valhalla_library(
+    name = "baldr", 
+    srcs = [
+        # WARNING: Can't really include Odin in deps due to 
+        # circular dependencies, therefore this is like peer deps 
+        # and some functionalities would be empty symbol if Odin
+        # is not linked. 
+        "valhalla/odin/markup_formatter.h", 
+        "valhalla/odin/sign.h",
+    ],
+    deps = [
+        "@//:midgard", 
+        "@//proto:cc_proto", 
+        "@//third_party:date", 
+        "@//third_party:rapidjson", 
+        "@boost//:optional", 
+        "@boost//:algorithm", 
+        "@boost//:variant", 
+        "@boost//:property_tree", 
+        "@boost//:intrusive_ptr", 
+    ]
+)
+
+"""
+EXPECT: Breaking
+@@@
 This library is possibly unneccessary for Meili's
 map matching function since it is related in generating
 verbal narrative of the routes.
@@ -50,35 +135,21 @@ valhalla_library(
 )
 
 """
-IO library for accessing and processing pre-generated
-tiles and graphs data. Similar to Midgard, this library 
-is almost always required in the other sub-packages. 
-"""
-valhalla_library(
-    name = "baldr", 
-    hdrs = [
-        "@//:locales"
-    ],
-    deps = [
-        "@//proto:cc_proto", 
-        "@//third_party:date", 
-        "@//third_party:rapidjson", 
-        "@boost//:optional", 
-        "@boost//:algorithm", 
-        "@boost//:variant", 
-        "@boost//:property_tree", 
-        "@boost//:intrusive_ptr", 
-    ]
-)
-
-"""
+EXPECT: Breaking
+@@@
 Library used in costing graph nodes and edges which 
 is neccessary in performing final optimization problem of 
 map matching algorithm in meili.
 """
 valhalla_library(
     name = "sif", 
+    srcs = [
+        "valhalla/thor/edgestatus.h"
+    ],
     deps = [
+        "@//:baldr",
+        "@//:midgard",
+        "@//:proto_conversions",
         "@//proto:cc_proto", 
         "@//third_party:date",
         "@//third_party:rapidjson",
@@ -94,12 +165,18 @@ input as coordinates and road network as tile graph.
 valhalla_library(
     name = "meili", 
     deps = [
+        "@//:sif",
+        "@//:baldr",
+        "@//:midgard",
         "@//proto:cc_proto",
         "@//third_party:date", 
         "@//third_party:rapidjson", 
         "@boost//:intrusive_ptr", 
         "@boost//:property_tree",
         "@boost//:heap",
+    ],
+    srcs_exclude = [
+        "src/meili/valhalla_run_map_match.cc"
     ]
 )
 
@@ -108,7 +185,35 @@ Unified library containing all dependencies for a
 functional map matching algorithm in Meili.
 """
 cc_library(
-    name = "mapmatch", 
+    name = "mapmatch-cc", 
+    deps = [
+        ":midgard", 
+        ":baldr", 
+        ":sif", 
+        ":meili", 
+    ]
+)
+
+"""
+iOS-compatible, multi-platform static library. 
+"""
+
+apple_static_xcframework(
+    name = "MapMatch", 
+    ios = {
+        "device": ["arm64"],
+        "simulator": ["x86_64", "arm64"],   
+    },
+    minimum_os_versions = {
+        "ios": "12.0"
+    },
+    public_hdrs = glob([
+        "valhalla/*.h", 
+        "valhalla/midgard/**/*.h", 
+        "valhalla/baldr/**/*.h", 
+        "valhalla/sif/**/*.h", 
+        "valhalla/meili/**/*.h", 
+    ], exclude = ["**/config.h", "**/worker.h"]), 
     deps = [
         ":midgard", 
         ":baldr", 

@@ -34,9 +34,50 @@ cc_library(
 )
 
 cc_library(
-    name = "date", 
-    hdrs = glob(["date/include/date/*.h"]),
-    srcs = glob(["date/src/*.cpp"]),
+    name = "microtar", 
+    srcs = glob(["microtar/src/*.c"]),
+    hdrs = glob(["microtar/src/*.h"]),
     visibility = ["//visibility:public"], 
+    strip_include_prefix = "microtar/src/",
+)
+
+objc_library(
+    name = "date-ios", 
+    visibility = ["//visibility:public"], 
+    copts = ["-Ithird_party/date/include"], 
+    defines = select({
+        "@platforms//os:ios": ["TARGET_OS_IPHONE=true"], 
+        "//conditions:default": [], 
+    }),
+    srcs = glob([
+        "date/src/ios.mm"
+    ]), 
+    hdrs = glob([
+        "date/include/date/ios.h"
+    ])
+)
+
+cc_library(
+    name = "date", 
+    deps = [":date-ios"],
+    visibility = ["//visibility:public"], 
+    includes = ["third_party/date/include"], 
     strip_include_prefix = "date/include", 
+    defines = [
+        "HAS_REMOTE_API=false", 
+        "USE_OS_TZDB=true",
+    ], 
+    srcs = glob([
+        "date/src/tz.cpp",
+    ]),
+    hdrs = glob([
+        "date/include/date/ios.h",
+        "date/include/date/date.h",
+        "date/include/date/tz.h",
+        "date/include/date/solar_hijri.h",
+        "date/include/date/islamic.h",
+        "date/include/date/iso_week.h",
+        "date/include/date/julian.h",
+        "date/include/date/tz_private.h",
+    ]),
 )
