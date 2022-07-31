@@ -31,7 +31,7 @@ TEST(MapMatcherFactory, TestMapMatcherFactory) {
   const auto root = test::make_config("/data/valhala");
 
   // Do it thousand times to check memory leak
-  for (size_t i = 0; i < 3000; i++) {
+  for (size_t i = 0; i < 1000; i++) {
 
     // Test configuration priority
     {

@@ -104,3 +104,276 @@ valhalla_test(
         "//:midgard",
     ]
 )
+
+valhalla_test(
+    name = "graphid", 
+    srcs = ["graphid.cc"],
+    deps = [
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "graphreader", 
+    srcs = ["graphreader.cc"],
+)
+
+valhalla_test(
+    name = "graphtile", 
+    srcs = ["graphtile.cc"],
+)
+
+valhalla_test(
+    name = "graphtileheader", 
+    srcs = ["graphtileheader.cc"],
+    deps = [
+        "//:midgard"
+    ]
+)
+
+valhalla_test(
+    name = "grid_range_query", 
+    srcs = ["grid_range_query.cc"],
+    deps = [
+        "//:meili",
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "grid_traversal", 
+    srcs = ["grid_traversal.cc"],
+    deps = [
+        "//:meili",
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "gridded_data", 
+    srcs = ["gridded_data.cc"],
+    deps = [
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "pointll", 
+    srcs = ["pointll.cc"],
+    deps = [
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "json", 
+    srcs = ["json.cc"],
+)
+
+valhalla_test(
+    name = "laneconnectivity", 
+    srcs = ["laneconnectivity.cc"],
+)
+
+valhalla_test(
+    name = "linesegment2", 
+    srcs = ["linesegment2.cc"],
+    deps = [
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "location", 
+    srcs = ["location.cc"],
+    deps = [
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "mapmatch_config", 
+    srcs = ["mapmatch_config.cc"],
+    deps = [
+        "//:meili",
+    ]
+)
+
+valhalla_test(
+    name = "queue", 
+    srcs = ["queue.cc"],
+    deps = [
+        "//:meili",
+    ]
+)
+
+valhalla_test(
+    name = "routing", 
+    srcs = ["routing.cc"],
+    deps = [
+        "//:meili",
+    ]
+)
+
+valhalla_test(
+    name = "obb2", 
+    srcs = ["obb2.cc"],
+    deps = [
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "sequence", 
+    srcs = ["sequence.cc"],
+    deps = [
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "point2", 
+    srcs = ["point2.cc"],
+    deps = [
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "pointtileindex", 
+    srcs = ["pointtileindex.cc"],
+    deps = [
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "predictedspeeds", 
+    srcs = ["predictedspeeds.cc"],
+    deps = [
+        "//:midgard",
+    ]
+)
+
+valhalla_test(
+    name = "nodetransition", 
+    srcs = ["nodetransition.cc"],
+)
+
+valhalla_test(
+    name = "streetnames_us", 
+    srcs = ["streetnames_us.cc"],
+)
+
+valhalla_test(
+    name = "streetnames_factory", 
+    srcs = ["streetnames_factory.cc"],
+)
+
+valhalla_test(
+    name = "streetnames", 
+    srcs = ["streetnames.cc"],
+)
+
+valhalla_test(
+    name = "streetname_us", 
+    srcs = ["streetname_us.cc"],
+)
+
+valhalla_test(
+    name = "streetname", 
+    srcs = ["streetname.cc"],
+)
+
+valhalla_test(
+    name = "tilehierarchy", 
+    srcs = ["tilehierarchy.cc"],
+    deps = [
+        "//:midgard"
+    ]
+)
+
+valhalla_test(
+    name = "tiles", 
+    srcs = ["tiles.cc"],
+    deps = [
+        "//:midgard"
+    ]
+)
+
+valhalla_test(
+    name = "traffictile", 
+    srcs = ["traffictile.cc"],
+    deps = [
+        "//:midgard"
+    ]
+)
+
+valhalla_test(
+    name = "util_midgard", 
+    srcs = ["util_midgard.cc"],
+    deps = [
+        "//:midgard"
+    ]
+)
+
+valhalla_test(
+    name = "vector2", 
+    srcs = ["vector2.cc"],
+    deps = [
+        "//:midgard"
+    ]
+)
+
+valhalla_test(
+    name = "transitdeparture", 
+    srcs = ["transitdeparture.cc"],
+)
+
+valhalla_test(
+    name = "transitroute", 
+    srcs = ["transitroute.cc"],
+)
+
+valhalla_test(
+    name = "transitschedule", 
+    srcs = ["transitschedule.cc"],
+)
+
+valhalla_test(
+    name = "transitstop", 
+    srcs = ["transitstop.cc"],
+)
+
+valhalla_test(
+    name = "turn", 
+    srcs = ["turn.cc"],
+)
+
+valhalla_test(
+    name = "verbal_text_formatter_us_co", 
+    srcs = ["verbal_text_formatter_us_co.cc"],
+)
+
+valhalla_test(
+    name = "verbal_text_formatter_us_tx", 
+    srcs = ["verbal_text_formatter_us_tx.cc"],
+)
+
+valhalla_test(
+    name = "verbal_text_formatter_us", 
+    srcs = ["verbal_text_formatter_us.cc"],
+)
+
+valhalla_test(
+    name = "verbal_text_formatter", 
+    srcs = ["verbal_text_formatter.cc"],
+)
+
+valhalla_test(
+    name = "viterbi_search", 
+    srcs = ["viterbi_search.cc"],
+    deps = [
+        "//:meili"
+    ]
+)

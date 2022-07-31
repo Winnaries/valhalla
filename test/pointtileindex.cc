@@ -203,3 +203,8 @@ TEST(PointTileIndex, Intermediate) {
     EXPECT_EQ(near_pts, exp_top_indices);
   }
 }
+
+int main(int argc, char* argv[]) {
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}

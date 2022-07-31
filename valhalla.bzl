@@ -30,6 +30,7 @@ def valhalla_test(
     return native.cc_test(
         name = name, 
         copts = default_copts, 
+        data = native.glob(["data/**/*"]), 
         srcs = srcs + native.glob(["test.*"]),
         deps = deps + [
             "@//:baldr", 
